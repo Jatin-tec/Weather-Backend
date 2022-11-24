@@ -9,6 +9,11 @@ const myCache = new NodeCache();
 const api_key = '22a23f13ac0c88b42ec96a8ec9bcddcc';
 
 app.use(cors());
+
+app.get('/', function (req, res) {
+    res.send('<h3>Working!!</h3>');
+})
+
 app.get('/get-wether', async function (req, res) {
 
     const resolveRequests = (body, key) => {
