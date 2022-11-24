@@ -4,6 +4,7 @@ var app = express();
 var cors = require('cors')
 
 const NodeCache = require("node-cache");
+// caching object
 const myCache = new NodeCache();
 
 const api_key = '22a23f13ac0c88b42ec96a8ec9bcddcc';
@@ -16,6 +17,7 @@ app.get('/', function (req, res) {
 
 app.get('/get-wether', async function (req, res) {
 
+    // getting data from third party
     const resolveRequests = (body, key) => {
 
         let part = [];
@@ -25,6 +27,7 @@ app.get('/get-wether', async function (req, res) {
             bodyArray.push(body[prop]);
         }
 
+        // paging data 
         part = bodyArray.slice(key*10, (key*10)+10);
         
         const querry = [];
@@ -49,12 +52,15 @@ app.get('/get-wether', async function (req, res) {
             resultArray.push(doc.data);
         })
 
+        // storing caching object in cache if resultArray is empty 
         if (resultArray !== []){
+            // storing values for 5min
             myCache.set(`data${key}`, resultArray, 300)
         }
 
     }
     
+    // returning results from caches
     res.json(myCache.get(`data${key}`));
 })
 
