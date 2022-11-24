@@ -58,4 +58,4 @@ app.get('/get-wether', async function (req, res) {
     res.json(myCache.get(`data${key}`));
 })
 
-app.listen(3000);
+app.listen(process.env.PORT || 3000);
